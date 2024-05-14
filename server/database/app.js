@@ -58,16 +58,40 @@ app.get('/fetchReviews/dealer/:id', async (req, res) => {
 
 // Express route to fetch all dealerships
 app.get('/fetchDealers', async (req, res) => {
-//Write your code here
+      try {
+    const documents = await Dealerships.find();
+    res.json(documents);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching documents' });
+  }
+    // res.send("Welcome to the Mongoose API")
 });
 
 // Express route to fetch Dealers by a particular state
 app.get('/fetchDealers/:state', async (req, res) => {
+      try {
+    const state = req.params.state;
+    const documents = await Dealerships.find({ state: state });
+    res.json(documents);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching documents' });
+  }
 //Write your code here
 });
 
 // Express route to fetch dealer by a particular id
 app.get('/fetchDealer/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    const document = await Dealerships.find({id: id});
+    // const document = await Dealerships.findById(id);
+    if (!document) {
+      return res.status(404).json({ error: 'Dealer not found' });
+    }
+    res.json(document);
+  } catch (error) {
+    res.status(500).json({ error: 'Error fetching document' });
+  }
 //Write your code here
 });
 
